@@ -12,8 +12,24 @@ mostrar la lista de empleados
         </tr>
     </thead>
     <tbody>
+        @foreach($empleados as $empleado)
         <tr>
-            <td></td>
+            <td>{{$empleado->id}}</td>
+            <td>{{$empleado -> Foto}}</td>
+            <td>{{$empleado -> Nombre}}</td>
+            <td>{{$empleado -> Apellido}}</td>
+            <td>{{$empleado -> Correo}}</td>
+            <td>Editar | 
+
+            <form action="{{url('/empleado/'.$empleado->id)}}" method="post">
+            @csrf
+            {{method_field('DELETE')}}
+            <input type="submit" onclick="return confirm('¿Quieres borrar?')"  value="Borrar">
+
+            </form>
+            </td>
+            
         </tr>
+        @endforeach
     </tbody>
 </table>
