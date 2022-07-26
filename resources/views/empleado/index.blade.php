@@ -1,6 +1,6 @@
 mostrar la lista de empleados
 <table class="table table-light">
-    
+
     <thead class="thead-light">
         <tr>
             <th>#</th>
@@ -15,20 +15,29 @@ mostrar la lista de empleados
         @foreach($empleados as $empleado)
         <tr>
             <td>{{$empleado->id}}</td>
-            <td>{{$empleado -> Foto}}</td>
+
+            <td>
+                <img src="{{asset('storage').'/'.$empleado->Foto}}" width="100" alt="">
+                
+            </td>
+
             <td>{{$empleado -> Nombre}}</td>
             <td>{{$empleado -> Apellido}}</td>
             <td>{{$empleado -> Correo}}</td>
-            <td>Editar | 
+            <td>
+                <a href="{{ url('/empleado/'.$empleado->id.'/edit') }}">
+                    Editar
+                </a>
+                |
 
-            <form action="{{url('/empleado/'.$empleado->id)}}" method="post">
-            @csrf
-            {{method_field('DELETE')}}
-            <input type="submit" onclick="return confirm('¿Quieres borrar?')"  value="Borrar">
+                <form action="{{ url('/empleado/'.$empleado->id) }}" method="post">
+                    @csrf
+                    {{method_field('DELETE')}}
+                    <input type="submit" onclick="return confirm('¿Quieres borrar?')" value="Borrar">
 
-            </form>
+                </form>
             </td>
-            
+
         </tr>
         @endforeach
     </tbody>

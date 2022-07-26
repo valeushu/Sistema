@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Empleado;
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\Storage;
+
 class EmpleadoController extends Controller
 {
     /**
@@ -15,7 +17,7 @@ class EmpleadoController extends Controller
     public function index()
     {
         //
-        $datos['empleados'] =Empleado::paginate(5);
+        $datos['empleados'] = Empleado::paginate(5);
         return view('empleado.index', $datos);
     }
 
@@ -39,10 +41,10 @@ class EmpleadoController extends Controller
     public function store(Request $request)
     {
         //
-        $datosEmpleado = $request->except('_token');
+        $datosEmpleado = request()->except('_token');
 
-        if($request ->hasFile('Foto')){
-            $datosEmpleado['Foto']=$request ->file('Foto')->store('uploads', 'public');
+        if ($request->hasFile('Foto')) {
+            $datosEmpleado['Foto'] = $request->file('Foto')->store('uploads', 'public');
         }
         Empleado::insert($datosEmpleado);
 
@@ -66,9 +68,11 @@ class EmpleadoController extends Controller
      * @param  \App\Models\Empleado  $empleado
      * @return \Illuminate\Http\Response
      */
-    public function edit(Empleado $empleado)
+    public function edit($id)
     {
         //
+        $empleado = Empleado::findOrFail($id);
+        return view('empleado.edit', compact('empleado'));
     }
 
     /**
@@ -78,9 +82,22 @@ class EmpleadoController extends Controller
      * @param  \App\Models\Empleado  $empleado
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Empleado $empleado)
+    public function update(Request $request, $id)
     {
         //
+        $datosEmpleado = request()->except(['_token', '_method']);
+
+        if ($request->hasFile('Foto')) {
+            $empleado = Empleado::findOrFail($id);
+            Storage::delete('public/'.$empleado->Foto);
+            $datosEmpleado['Foto'] = $request->file('Foto')->store('uploads', 'public');
+        }
+
+        Empleado::where('id', '=', $id)->update($datosEmpleado);
+
+        $empleado = Empleado::findOrFail($id);
+        return view('empleado.edit', compact('empleado'));
+
     }
 
     /**
