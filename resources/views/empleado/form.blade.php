@@ -14,4 +14,5 @@
 <input type="file" name="Foto" value="" id="Foto">
 <br>
 <input type="submit" value="Guardar datos">
+<a href="{{ url('empleado/') }}">Regresar</a>
 <br>

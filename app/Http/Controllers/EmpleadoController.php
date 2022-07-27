@@ -48,7 +48,8 @@ class EmpleadoController extends Controller
         }
         Empleado::insert($datosEmpleado);
 
-        return response()->json($datosEmpleado);
+        //return response()->json($datosEmpleado);
+        return redirect('empleado')->with('mensaje', 'empleado agregado con exito');
     }
 
     /**
@@ -108,8 +109,14 @@ class EmpleadoController extends Controller
      */
     public function destroy($id)
     {
-        //
-        Empleado::destroy($id);
+        $empleado = Empleado::findOrFail($id);
+
+        if(Storage::delete('public/'.$empleado->Foto)){
+            Empleado::destroy($id);
+
+        }
+
+        
         return redirect('empleado');
     }
 }
