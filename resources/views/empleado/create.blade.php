@@ -1,7 +1,13 @@
-formulario creacion empleados
-<form action="{{url('/empleado')}}" method="post" enctype="multipart/form-data">
-  @csrf
+@extends('layouts.app')
 
-  @include('empleado.form');
+@section('content')
+<div class="container">
 
-</form>
+  <form action="{{url('/empleado')}}" method="post" enctype="multipart/form-data">
+    @csrf
+
+    @include('empleado.form',['modo'=>'Crear']);
+
+  </form>
+</div>
+@endsection
