@@ -3,9 +3,18 @@
 @section('content')
 <div class="container">
 
+
     @if(Session::has('mensaje'))
-    {{Session::get('mensaje')}}
+    <div class="alert alert-info alert-dismissible" role="alert">
+        {{Session::get('mensaje')}}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+
+
+    </div>
     @endif
+
 
     <a href="{{ url('empleado/create') }}" class="btn btn-success">Registrar nuevo empleado</a>
     <br>
@@ -29,7 +38,6 @@
 
                 <td>
                     <img class="img-thumbnail img-fluid" src="{{asset('storage').'/'.$empleado->Foto}}" width="100" alt="">
-
                 </td>
 
                 <td>{{$empleado -> Nombre}}</td>
@@ -53,5 +61,6 @@
             @endforeach
         </tbody>
     </table>
+    {!!$empleados->links() !!}
     @endsection
 </div>
